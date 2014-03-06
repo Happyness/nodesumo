@@ -1,2 +1,1 @@
-<p>This is the partial for view 2.</p><p>Showing of 'interpolate' filter:
-{{ 'Current version is v%VERSION%.' | interpolate }}</p>
+<div ng-controller="deleteController"><div class="table-responsive"><table class="table table-bordered"><thead><tr><th>#</th><th>Keyword name</th><th>Variants</th><th>Index</th><th>IndexType</th><th>MultiAction</th></tr><tbody><tr ng-repeat="item in result" onmouseover="showActionBallon()"><td></td><td>{{item.keyword}}</td><td>{{item.variants}}</td><td>{{item.index}}</td><td>{{item.indexType}}</td><td><input type="checkbox"/></td></tr></tbody></thead></table><p class="buttons"><input type="button" value="Delete selected" onClick="getSelectedAndDelete()"/></p></div></div>

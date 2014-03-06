@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', []).
+angular.module('sumoApp.controllers', []).
   controller('AppCtrl', function ($scope, $http) {
 
     $http({
@@ -17,12 +17,38 @@ angular.module('myApp.controllers', []).
     });
 
   }).
-  controller('addController', function ($scope) {
-    // write Ctrl here
+  controller('addController', function ($scope, $http) {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/rest/search/index'
+        }).
+
+            success(function (data, status, headers, config) {
+                $scope.indexes = data;
+            });
+
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/rest/search/indextype'
+        }).
+
+            success(function (data, status, headers, config) {
+                $scope.indexTypes = data;
+            });
 
   }).
-  controller('deleteController', function ($scope) {
-    // write Ctrl here
+  controller('deleteController', function ($scope, $http) {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/rest/search/synonym/keyword/*/*/*'
+        }).
+
+            success(function (data, status, headers, config) {
+                $scope.result = data;
+            }).
+            error(function (data, status, headers, config) {
+                $scope.result = 'Error!';
+            });
 
   }).
     controller('searchController', function($scope, $http) {

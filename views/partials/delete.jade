@@ -1,4 +1,24 @@
-p This is the partial for view 2.
-p
-  | Showing of 'interpolate' filter:
-  | {{ 'Current version is v%VERSION%.' | interpolate }}
+div(ng-controller='deleteController')
+    div(class="table-responsive")
+        table(class="table table-bordered")
+            thead
+                tr
+                    th #
+                    th Keyword name
+                    th Variants
+                    th Index
+                    th IndexType
+                    th MultiAction
+                tbody
+                    tr(ng-repeat="item in result", onmouseover="showActionBallon()")
+                        td
+                        td {{item.keyword}}
+                        td {{item.variants}}
+                        td {{item.index}}
+                        td {{item.indexType}}
+                        td
+                            input(type="checkbox")
+
+
+        p(class="buttons")
+            input(type="button", value="Delete selected", onClick="getSelectedAndDelete()")

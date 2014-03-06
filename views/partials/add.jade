@@ -1,1 +1,24 @@
-p This is the partial for view 1.
+div(ng-controller='addController')
+    form(action="/add", method="post")
+        div(class="input-group input-group-lg")
+            span(class="input-group-addon") S
+            input(type="text", class="form-control", placeholder="Keyword", id = "sumo_keyword")
+
+        p
+            label(for="sumo_variants")
+            textarea(id="sumo_variants")
+
+        p
+            label(for="sumo_index") Index:
+            div(class="checkboxes", id="sumo_index", ng-repeat="index in indexes")
+            p
+                {{index}}
+                input(type="checkbox", value="{{index}}") {{index}}
+
+        p
+            label(for="sumo_indextype") IndexType:
+            select(id="sumo_indextype", ng-repeat="indexType in indexTypes")
+                option(value="{{indexType}}") {{indexType}}
+
+        p(class="buttons")
+            input(type="button", value="Create new synonym", onClick="something()")

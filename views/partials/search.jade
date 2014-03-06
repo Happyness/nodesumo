@@ -1,1 +1,20 @@
-p You are now in search
+div(ng-controller='searchController')
+    div(class="table-responsive")
+        label(for="search") Search:
+        input(type="text", id="search", oninput="updateSearchResults()")
+
+        table(class="table table-bordered")
+            thead
+                tr
+                    th #
+                    th Keyword name
+                    th Variants
+                    th Index
+                    th IndexType
+                tbody
+                    tr(ng-repeat="item in result")
+                        td
+                        td {{item.keyword}}
+                        td {{item.variants}}
+                        td {{item.index}}
+                        td {{item.indexType}}
