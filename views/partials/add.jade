@@ -1,23 +1,24 @@
 div(ng-controller='addController')
-    form(action="/add", method="post")
+    form(ng-submit="submit()")
         div(class="input-group input-group-lg")
             span(class="input-group-addon") S
-            input(type="text", class="form-control", placeholder="Keyword", id = "sumo_keyword")
+            input(type="text", class="form-control", placeholder="Keyword", ng-model="add_keyword")
 
         p
-            label(for="sumo_variants")
-            textarea(id="sumo_variants")
-
-        p Index:
-            div(class="radiobuttons")
-                span(ng-repeat="index in indexes")
-                    input(, type="radio", name="sumo_index", value="{{index}}")
-                    {{index}}
+            textarea(class="form-control input-large", ng-model="add_variants")
 
         p
-            label(for="sumo_indextype") IndexType:
-            select(id="sumo_indextype")
+            div(ng-repeat="indexname in indexes", class="row-fluid")
+
+                label
+                   input(type="radio", name="add_index", value="{{indexname}}", ng-model="$parent.add_index")
+                   span(ng-bind="indexname")
+
+        p
+            select(class="form-control", ng-model="add_indextype")
                 option(ng-repeat="indexType in indexTypes", value="{{indexType}}") {{indexType}}
 
         p(class="buttons")
-            input(type="button", value="Create new synonym", onClick="something()")
+            input(type="submit", class="btn btn-primary", value="Create new synonym")
+
+        p {{result}}

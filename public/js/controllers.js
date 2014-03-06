@@ -18,6 +18,29 @@ angular.module('sumoApp.controllers', []).
 
   }).
   controller('addController', function ($scope, $http) {
+        $scope.submit = function()
+        {
+            console.log($scope.add_keyword);
+            console.log($scope.add_variants);
+            console.log($scope.add_index);
+            console.log($scope.add_indextype);
+
+            var json = {
+                keyword: $scope.add_keyword,
+                variants: $scope.add_variants,
+                index: $scope.add_index,
+                indexType: $scope.add_indextype
+            }
+
+            $http({
+                method: 'POST',
+                url: 'http://localhost:8080/rest/add/synonym',
+                data: json
+            }).success(function (data, status, headers, config) {
+                    $scope.result = data;
+            });
+        }
+
         $http({
             method: 'GET',
             url: 'http://localhost:8080/rest/search/index'

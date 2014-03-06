@@ -14,7 +14,7 @@ div(ng-controller='searchController')
                     th Date
                 tbody
                     tr(ng-repeat="item in result")
-                        td
+                        td {{$index}}
                         td {{item.keyword}}
                         td {{item.variants}}
                         td {{item.index}}
