@@ -79,3 +79,8 @@ your friends.
 
 ## License
 MIT
+=======
+nodesumo
+========
+
+NodeJS, Express, Angular, Bootstrap, HTML5
