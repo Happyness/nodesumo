@@ -11,6 +11,7 @@ div(ng-controller='searchController')
                     th Variants
                     th Index
                     th IndexType
+                    th Date
                 tbody
                     tr(ng-repeat="item in result")
                         td
@@ -18,3 +19,4 @@ div(ng-controller='searchController')
                         td {{item.variants}}
                         td {{item.index}}
                         td {{item.indexType}}
+                        td {{item.date}}

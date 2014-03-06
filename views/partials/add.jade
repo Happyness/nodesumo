@@ -8,17 +8,16 @@ div(ng-controller='addController')
             label(for="sumo_variants")
             textarea(id="sumo_variants")
 
-        p
-            label(for="sumo_index") Index:
-            div(class="checkboxes", id="sumo_index", ng-repeat="index in indexes")
-            p
-                {{index}}
-                input(type="checkbox", value="{{index}}") {{index}}
+        p Index:
+            div(class="radiobuttons")
+                span(ng-repeat="index in indexes")
+                    input(, type="radio", name="sumo_index", value="{{index}}")
+                    {{index}}
 
         p
             label(for="sumo_indextype") IndexType:
-            select(id="sumo_indextype", ng-repeat="indexType in indexTypes")
-                option(value="{{indexType}}") {{indexType}}
+            select(id="sumo_indextype")
+                option(ng-repeat="indexType in indexTypes", value="{{indexType}}") {{indexType}}
 
         p(class="buttons")
             input(type="button", value="Create new synonym", onClick="something()")
