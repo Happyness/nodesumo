@@ -8,15 +8,19 @@ div(ng-controller='searchController')
     form(ng-submit="submit()")
         div(ng-repeat="item in searchTypes", class="row-fluid col-xs-2")
             label
-                input(type="radio", name="search_type", value="{{item.id}}", ng-model="$parent.search_type")
+                input(type="radio", name="search_type", value="{{item.id}}", ng-model="$parent.search_type"
+                ng-if="keyword == item.id"
                 span(ng-bind="item.label")
 
         p(class="col-xs-2")
             select(class="form-control", ng-model="search_index")
+                option(value="", disabled selected) Choose Index
                 option(ng-repeat="indexname in indexes", value="{{indexname}}") {{indexname}}
 
         p(class="col-xs-2")
             select(class="form-control", ng-model="search_indextype")
+                option(value="", disabled selected) Choose Indextype
+                option(value="*") All
                 option(ng-repeat="indexType in indexTypes", value="{{indexType}}") {{indexType}}
 
         div(class="input-group")
@@ -38,7 +42,8 @@ div(ng-controller='searchController')
                     tr(ng-repeat="item in result")
                         td {{$index}}
                         td {{item.keyword}}
-                        td {{item.variants}}
+                        td
+                            span(ng-repeat="variant in item.variants") {{variant.name}},
                         td {{item.index}}
                         td {{item.indexType}}
                         td {{item.date}}

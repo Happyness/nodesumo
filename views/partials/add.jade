@@ -1,11 +1,14 @@
 div(ng-controller='addController')
     form(ng-submit="submit()")
-        div(class="input-group input-group-lg")
-            span(class="input-group-addon") S
-            input(type="text", class="form-control", placeholder="Keyword", ng-model="add_keyword")
+        p
+            div(class="row input-group input-group-lg")
+                span(class="input-group-addon") S
+                input(type="text", class="form-control", placeholder="Keyword", ng-model="add_keyword")
 
         p
-            textarea(class="form-control input-large", ng-model="add_variants")
+             div(class="row input-group input-group-lg")
+                  span(class="input-group-addon") S
+                  textarea(class="form-control input-large", ng-model="add_variants", placeholder="Variants")
 
         p
             div(ng-repeat="indexname in indexes", class="row-fluid")
@@ -16,6 +19,7 @@ div(ng-controller='addController')
 
         p
             select(class="form-control", ng-model="add_indextype")
+                option(value="", disabled selected) Choose Index type
                 option(ng-repeat="indexType in indexTypes", value="{{indexType}}") {{indexType}}
 
         p(class="buttons")

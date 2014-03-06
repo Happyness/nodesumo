@@ -17,6 +17,11 @@ angular.module('sumoApp.controllers', []).
     });
 
   }).
+  controller('navigationController', function ($scope, $location) {
+        $scope.isActive = function (viewLocation) {
+            return viewLocation === $location.path();
+        };
+  }).
   controller('addController', function ($scope, $http) {
         $scope.submit = function()
         {

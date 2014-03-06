@@ -23,7 +23,7 @@ config(function ($routeProvider, $locationProvider) {
           controller: 'searchController'
       }).
     otherwise({
-      redirectTo: '/'
+      templateUrl: '/partials/home'
     });
 
   $locationProvider.html5Mode(true);

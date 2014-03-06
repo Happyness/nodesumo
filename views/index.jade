@@ -3,16 +3,6 @@ extends layout
 block body
   div(ng-controller='AppCtrl')
     h2 Hello {{name}}
-    div
-        {{result}}
-    ul(class="nav nav-pills nav-stacked")
-      li
-        a(href='add') add
-      li
-        a(href='delete') delete
-      li
-        a(href='search') search
-
 
     div.container(ng-view)
 
