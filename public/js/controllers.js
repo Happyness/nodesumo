@@ -17,11 +17,24 @@ angular.module('myApp.controllers', []).
     });
 
   }).
-  controller('MyCtrl1', function ($scope) {
+  controller('addController', function ($scope) {
     // write Ctrl here
 
   }).
-  controller('MyCtrl2', function ($scope) {
+  controller('deleteController', function ($scope) {
     // write Ctrl here
 
-  });
+  }).
+    controller('searchController', function($scope, $http) {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/rest/search/synonym/keyword/*/*/*'
+        }).
+
+            success(function (data, status, headers, config) {
+                $scope.result = data;
+            }).
+            error(function (data, status, headers, config) {
+                $scope.result = 'Error!';
+            });
+    });

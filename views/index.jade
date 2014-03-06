@@ -1,13 +1,34 @@
 extends layout
 
 block body
+  div(ng-controller='searchController')
+    div(class="table-responsive")
+      table(class="table table-bordered")
+          thead
+            tr
+                th #
+                th Keyword name
+                th Variants
+                th Index
+                th IndexType
+           tbody
+                tr(ng-repeat="item in result")
+                    td {{item.keyword}}
+                    td {{item.variants}}
+                    td {{item.index}}
+                    td {{item.indexType}}
+
   div(ng-controller='AppCtrl')
     h2 Hello {{name}}
+    div
+        {{result}}
     ul.menu
       li
-        a(href='view1') view1
+        a(href='add') add
       li
-        a(href='view2') view2
+        a(href='delete') delete
+      li
+        a(href='search') search
 
     div(ng-view)
 
