@@ -27,7 +27,7 @@ angular.module('sumoApp.controllers', []).
 
             var json = {
                 keyword: $scope.add_keyword,
-                variants: $scope.add_variants,
+                variants: [$scope.add_variants],
                 index: $scope.add_index,
                 indexType: $scope.add_indextype
             }
@@ -35,7 +35,9 @@ angular.module('sumoApp.controllers', []).
             $http({
                 method: 'POST',
                 url: 'http://localhost:8080/rest/add/synonym',
-                data: json
+                data: json,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
             }).success(function (data, status, headers, config) {
                     $scope.result = data;
             });
