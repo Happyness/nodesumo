@@ -9,11 +9,15 @@ div(class="navbar navbar-default navbar-fixed-top", role="navigation", ng-contro
                 span(class="icon-bar")
 
             a(class="navbar-brand", href="/") Sumo
+                span(class="glyphicon glyphicon-star")
         div(class="navbar-collapse collapse")
             ul(class="nav navbar-nav")
                 li(ng-class="{ active: isActive('/')}")
                     a(href="/") Home
+                        span(class="glyphicon glyphicon-home")
                 li(ng-class="{ active: isActive('/add')}")
                     a(href="/add") Add
+                        span(class="glyphicon glyphicon-plus")
                 li(ng-class="{ active: isActive('/search')}")
                     a(href="/search") Search
+                        span(class="glyphicon glyphicon-search")

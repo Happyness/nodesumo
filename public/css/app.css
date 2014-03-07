@@ -1,5 +1,9 @@
 /* app css stylesheet */
 
+span.glyphicon {
+    margin-left: 10px;
+}
+
 .menu {
   list-style: none;
   border-bottom: 0.1em solid black;
