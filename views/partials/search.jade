@@ -1,9 +1,3 @@
-script
-    function setSearchType($event)
-    {
-        console.log($event);
-    };
-
 div(ng-controller='searchController')
     form(ng-submit="submit()")
         div(ng-repeat="item in searchTypes", class="row-fluid col-xs-2")
