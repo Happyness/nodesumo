@@ -22,21 +22,37 @@ div(ng-controller='searchController')
                 button(class="btn btn-default", type="submit") Search
 
     div(class="table-responsive")
-        table(class="table table-bordered")
+        table(class="table table-bordered", id="syn_table")
             thead
                 tr
                     th #
-                    th Keyword name
+                    th Keyword
                     th Variants
                     th Index
                     th IndexType
                     th Date
                 tbody
-                    tr(ng-repeat="item in result")
+                    tr(ng-repeat="item in syn_result")
                         td {{$index}}
                         td {{item.keyword}}
                         td
                             span(ng-repeat="variant in item.variants") {{variant.name}},
+                        td {{item.index}}
+                        td {{item.indexType}}
+                        td {{item.date}}
+
+        table(id="stop_table", class="table table-bordered")
+            thead
+                tr
+                    th #
+                    th Stopword
+                    th Index
+                    th IndexType
+                    th Date
+                tbody
+                    tr(ng-repeat="item in stop_result")
+                        td {{$index}}
+                        td {{item.name}}
                         td {{item.index}}
                         td {{item.indexType}}
                         td {{item.date}}

@@ -22,7 +22,7 @@ angular.module('sumoApp.controllers', []).
             return viewLocation === $location.path();
         };
   }).
-  controller('addController', function ($scope, $http) {
+    controller('addSynonymController', ["$scope", "$http", function ($scope, $http) {
         $scope.submit = function()
         {
             console.log($scope.add_keyword);
@@ -51,7 +51,7 @@ angular.module('sumoApp.controllers', []).
                 dataType: 'json'
             }).success(function (data, status, headers, config) {
                     $scope.result = data;
-            });
+                });
         }
 
         $http({
@@ -72,7 +72,50 @@ angular.module('sumoApp.controllers', []).
                 $scope.indexTypes = data;
             });
 
-  }).
+    }]).
+    controller('addStopwordController', ["$scope", "$http", function ($scope, $http) {
+        $scope.submit = function()
+        {
+            console.log($scope.add_name);
+            console.log($scope.add_index);
+            console.log($scope.add_indextype);
+
+            var json = {
+                name: $scope.add_name,
+                index: $scope.add_index,
+                indexType: $scope.add_indextype
+            }
+
+            $http({
+                method: 'POST',
+                url: 'http://localhost:8080/rest/add/stopword',
+                data: json,
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json'
+            }).success(function (data, status, headers, config) {
+                    $scope.result = data;
+                });
+        }
+
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/rest/search/index'
+        }).
+
+            success(function (data, status, headers, config) {
+                $scope.indexes = data;
+            });
+
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/rest/search/indextype'
+        }).
+
+            success(function (data, status, headers, config) {
+                $scope.indexTypes = data;
+            });
+
+    }]).
   controller('deleteController', function ($scope, $http) {
         $http({
             method: 'GET',
@@ -110,6 +153,9 @@ angular.module('sumoApp.controllers', []).
                 $scope.indexTypes = data;
             });
 
+        angular.element('#stop_table').hide();
+        angular.element('#syn_table').hide();
+
         $scope.submit = function()
         {
             console.log($scope.search_word);
@@ -133,7 +179,15 @@ angular.module('sumoApp.controllers', []).
             }).
 
                 success(function (data, status, headers, config) {
-                    $scope.result = data;
+                    if (type == "stopword") {
+                        angular.element('#syn_table').hide();
+                        angular.element('#stop_table').show();
+                        $scope.stop_result = data;
+                    } else {
+                        angular.element('#stop_table').hide();
+                        angular.element('#syn_table').show();
+                        $scope.syn_result = data;
+                    }
                 }).
                 error(function (data, status, headers, config) {
                     $scope.result = 'Error!';

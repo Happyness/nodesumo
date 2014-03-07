@@ -11,9 +11,17 @@ angular.module('sumoApp', [
 config(function ($routeProvider, $locationProvider) {
   $routeProvider.
     when('/add', {
-      templateUrl: 'partials/add',
-      controller: 'addController'
+      templateUrl: 'partials/add_synonym',
+      controller: 'addSynonymController'
     }).
+      when('/add/synonym', {
+          templateUrl: 'partials/add_synonym',
+          controller: 'addSynonymController'
+      }).
+      when('/add/stopword', {
+          templateUrl: 'partials/add_stopword',
+          controller: 'addStopwordController'
+      }).
     when('/delete', {
       templateUrl: 'partials/delete',
       controller: 'deleteController'
