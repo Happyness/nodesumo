@@ -2,8 +2,7 @@ div(ng-controller='searchController')
     form(ng-submit="submit()")
         div(ng-repeat="item in searchTypes", class="row-fluid col-xs-2")
             label
-                input(type="radio", name="search_type", value="{{item.id}}", ng-model="$parent.search_type"
-                ng-if="keyword == item.id"
+                input(type="radio", name="search_type", value="{{item.id}}", ng-model="$parent.search_type")
                 span(ng-bind="item.label")
 
         p(class="col-xs-2")
