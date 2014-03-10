@@ -1,0 +1,25 @@
+div(ng-controller='addStopwordController')
+    include add_menu
+
+    form(ng-submit="submit()")
+        p
+            div(class="row input-group input-group-lg")
+                span(class="input-group-addon") S
+                input(type="text", class="form-control", placeholder="Name", ng-model="add_name")
+
+        p
+            div(ng-repeat="indexname in indexes", class="row-fluid")
+
+                label
+                   input(type="radio", name="add_index", value="{{indexname}}", ng-model="$parent.add_index")
+                   span(ng-bind="indexname")
+
+        p
+            select(class="form-control", ng-model="add_indextype")
+                option(value="", disabled selected) Choose Index type
+                option(ng-repeat="indexType in indexTypes", value="{{indexType}}") {{indexType}}
+
+        p(class="buttons")
+            input(type="submit", class="btn btn-primary", value="Create new stopword")
+
+        p {{result}}
