@@ -22,7 +22,7 @@ function setResponseMessage(data, error)
     responseElement.text(data.message);
 
     setTimeout(function() {
-        responseElement.hide();
+        //responseElement.hide();
         responseMode = 3;
     }, 4000);
 }
@@ -168,7 +168,7 @@ angular.module('sumoApp.controllers', []).
     }]).
   controller('managementController', function ($scope, $http) {
         responseMode = 3;
-        
+
         $scope.searchTypes = [{id: 'keyword', label: 'Keyword'},
             {id: 'variant', label: 'Variant'},
             {id: 'stopword', label: 'Stopword'}];
