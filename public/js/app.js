@@ -26,6 +26,10 @@ config(function ($routeProvider, $locationProvider) {
       templateUrl: 'partials/manage',
       controller: 'managementController'
     }).
+      when('/export', {
+          templateUrl: '/partials/export',
+          controller: 'exportController'
+      }).
     otherwise({
       templateUrl: '/partials/home'
     });

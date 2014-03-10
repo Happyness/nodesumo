@@ -23,6 +23,20 @@ function setResponseMessage(data, error)
 
 /* Controllers */
 angular.module('sumoApp.controllers', []).
+  controller('exportController', function ($scope, $http) {
+        $http({
+            method: 'GET',
+            url: 'http://localhost:8080/rest/export'
+        }).
+        success(function (data, status, headers, config) {
+            data.message = "Successfully exported latest database into XML on server"
+            setResponseMessage(data);
+         }).
+         error(function (data, status, headers, config) {
+             data.message("Failed exporting database to XML");
+             setResponseMessage(data);
+         });
+   }).
   controller('AppCtrl', function ($scope, $http) {
     $scope.responseMode = function()
     {
