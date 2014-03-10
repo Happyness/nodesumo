@@ -272,11 +272,11 @@ angular.module('sumoApp.controllers', []).
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json'
                 }).success(function (data, status, headers, config) {
-                        data.message = "Successfully deleted synonym: " + $scope.syn_result[index].keyword;
+                        data.message = "Successfully deleted synonym: " + $scope.syn_result[index].name;
                         setResponseMessage(data);
                         $scope.syn_result.splice(index, 1);
                     }).error(function (data, status, headers, config) {
-                        data.message = "Failed deleting synonym: " + $scope.syn_result[index].keyword;
+                        data.message = "Failed deleting synonym: " + $scope.syn_result[index].name;
                         setResponseMessage(data);
                     });
             }
