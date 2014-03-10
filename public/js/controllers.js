@@ -22,7 +22,7 @@ function setResponseMessage(data, error)
     responseElement.text(data.message);
 
     setTimeout(function() {
-        //responseElement.hide();
+        responseElement.hide();
         responseMode = 3;
     }, 4000);
 }
