@@ -22,14 +22,10 @@ config(function ($routeProvider, $locationProvider) {
           templateUrl: 'partials/add_stopword',
           controller: 'addStopwordController'
       }).
-    when('/delete', {
-      templateUrl: 'partials/delete',
-      controller: 'deleteController'
+    when('/manage', {
+      templateUrl: 'partials/manage',
+      controller: 'managementController'
     }).
-      when('/search', {
-          templateUrl: 'partials/search',
-          controller: 'searchController'
-      }).
     otherwise({
       templateUrl: '/partials/home'
     });

@@ -33,7 +33,9 @@ angular.module('sumoApp.controllers', []).
             var variants = $scope.add_variants.split(',');
             $.each(variants, function(index, value)
             {
-                variants[index] = $.trim(value);
+                if (variants[index] != "") {
+                    variants[index] = $.trim(value);
+                }
             });
 
             var json = {
@@ -50,8 +52,17 @@ angular.module('sumoApp.controllers', []).
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
             }).success(function (data, status, headers, config) {
-                    $scope.result = data;
-                });
+                 if (data.status == "ok") {
+                    angular.element("#result").className = "alert alert-success";
+
+                    if (data.message == null) data.message = "Success";
+                 } else {
+                     angular.element("#add_result").className = "alert alert-danger";
+                 }
+
+                 console.log(data.message);
+                 angular.element("#add_result").innerHTML = data.message;
+            });
         }
 
         $http({
@@ -116,21 +127,7 @@ angular.module('sumoApp.controllers', []).
             });
 
     }]).
-  controller('deleteController', function ($scope, $http) {
-        $http({
-            method: 'GET',
-            url: 'http://localhost:8080/rest/search/synonym/keyword/*/*/*'
-        }).
-
-            success(function (data, status, headers, config) {
-                $scope.result = data;
-            }).
-            error(function (data, status, headers, config) {
-                $scope.result = 'Error!';
-            });
-
-  }).
-    controller('searchController', function($scope, $http) {
+  controller('managementController', function ($scope, $http) {
         $scope.searchTypes = [{id: 'keyword', label: 'Keyword'},
             {id: 'variant', label: 'Variant'},
             {id: 'stopword', label: 'Stopword'}];
@@ -193,4 +190,70 @@ angular.module('sumoApp.controllers', []).
                     $scope.result = 'Error!';
                 });
         };
-    });
+
+        $scope.deletevariant = function(index, varindex)
+        {
+            console.log("Keyword Index: " + index);
+            console.log("Variant Index: " + varindex);
+
+            if ($scope.syn_result[index] && $scope.syn_result[index].variants[varindex]) {
+                console.log($scope.syn_result[index]);
+                console.log($scope.syn_result[index].variants[index]);
+
+                var json = JSON.parse(JSON.stringify($scope.syn_result[index]));
+                json.variants = [JSON.parse(JSON.stringify($scope.syn_result[index].variants[varindex]))];
+
+                console.log(json);
+                $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/rest/delete/variant',
+                    data: json,
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json'
+                }).success(function (data, status, headers, config) {
+                        $scope.syn_result[index].variants.splice(varindex, 1);
+                        if ($scope.syn_result[index].variants.length < 1) {
+                            $scope.syn_result.splice(index, 1);
+                        }
+                        $scope.result = data.message;
+                });
+            }
+        }
+
+        $scope.deletesynonym = function(index)
+        {
+            console.log(index);
+
+            if ($scope.syn_result[index]) {
+                console.log($scope.syn_result[index]);
+
+                $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/rest/delete/synonym',
+                    data: $scope.syn_result[index],
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json'
+                }).success(function (data, status, headers, config) {
+                        $scope.syn_result.splice(index, 1);
+                        $scope.result = data.message;
+                });
+            }
+        }
+        $scope.deletestopword = function(index) {
+            if ($scope.stop_result[index]) {
+                console.log($scope.stop_result[index]);
+
+                $http({
+                    method: 'POST',
+                    url: 'http://localhost:8080/rest/delete/stopword',
+                    data: $scope.stop_result[index],
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json'
+                }).success(function (data, status, headers, config) {
+                        $scope.stop_result.splice(index, 1);
+                        $scope.result = data.message;
+                    });
+            }
+        }
+
+  });

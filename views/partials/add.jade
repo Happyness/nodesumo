@@ -1,4 +1,6 @@
 div(ng-controller='addController')
+    div(id="result")
+
     form(ng-submit="submit()")
         p
             div(class="row input-group input-group-lg")
@@ -24,5 +26,3 @@ div(ng-controller='addController')
 
         p(class="buttons")
             input(type="submit", class="btn btn-primary", value="Create new synonym")
-
-        p {{result}}

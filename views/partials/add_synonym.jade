@@ -1,6 +1,8 @@
 div(ng-controller='addSynonymController')
     include add_menu
 
+    div(id="add_result", ng-model="add_result")
+
     form(ng-submit="submit()")
         p
             div(class="row input-group input-group-lg")

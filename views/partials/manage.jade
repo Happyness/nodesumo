@@ -1,0 +1,75 @@
+div(ng-controller='managementController')
+    form(ng-submit="submit()")
+        div(ng-repeat="item in searchTypes", class="row-fluid col-xs-2")
+            label
+                input(type="radio", name="search_type", value="{{item.id}}", ng-model="$parent.search_type")
+                span(ng-bind="item.label")
+
+        p(class="col-xs-2")
+            select(class="form-control", ng-model="search_index")
+                option(value="", disabled selected) Choose Index
+                option(ng-repeat="indexname in indexes", value="{{indexname}}") {{indexname}}
+
+        p(class="col-xs-2")
+            select(class="form-control", ng-model="search_indextype")
+                option(value="", disabled selected) Choose Indextype
+                option(value="*") All
+                option(ng-repeat="indexType in indexTypes", value="{{indexType}}") {{indexType}}
+
+        div(class="input-group")
+            input(type="text", class="form-control", ng-model="search_word")
+            span(class="input-group-btn")
+                button(class="btn btn-default", type="submit") Search
+
+        div(class="table-responsive")
+            table(class="table table-bordered", id="syn_table")
+                thead
+                    tr
+                        th #
+                        th Keyword
+                        th Variants
+                        th Index
+                        th IndexType
+                        th Created
+                    tbody
+                        tr(ng-repeat="item in syn_result")
+                            td {{$index}}
+                            td
+                                div(class="btn-group")
+                                    button(type="button", class="btn btn-primary dropdown-toggle", data-toggle="dropdown")  {{item.keyword}}
+                                        span(class="caret")
+                                    ul(class="dropdown-menu", role="menu")
+                                        li
+                                            a(class="btn", ng-click="deletesynonym($index);") Delete
+                            td
+                                div(class="btn-group", ng-repeat="variant in item.variants")
+                                    button(type="button", class="btn btn-primary dropdown-toggle", data-toggle="dropdown")  {{variant.name}}
+                                        span(class="caret")
+                                    ul(class="dropdown-menu", role="menu")
+                                        li
+                                            a(class="btn", ng-click="deletevariant($parent.$index, $index);") Delete
+                            td {{item.index}}
+                            td {{item.indexType}}
+                            td {{item.date}}
+
+            table(id="stop_table", class="table table-bordered")
+                thead
+                    tr
+                        th #
+                        th Stopword
+                        th Index
+                        th IndexType
+                        th Created
+                    tbody
+                        tr(ng-repeat="item in stop_result")
+                            td {{$index}}
+                            td
+                                div(class="btn-group")
+                                    button(type="button", class="btn btn-primary dropdown-toggle", data-toggle="dropdown")  {{item.name}}
+                                        span(class="caret")
+                                    ul(class="dropdown-menu", role="menu")
+                                        li
+                                            a(class="btn", ng-click="deletestopword($index);") Delete
+                            td {{item.index}}
+                            td {{item.indexType}}
+                            td {{item.date}}
