@@ -1,9 +1,33 @@
 'use strict';
 
-/* Controllers */
+var responseMode = 3;
 
+function setResponseMessage(data, error)
+{
+    console.log("Calling response message");
+
+    var responseElement = $('#response');
+
+    if (data.status == "ok") {
+        responseMode = 1;
+        //responseElement.attr("class", "alert alert-success");
+
+        if (data.message == null) data.message = "Success";
+    } else {
+        responseMode = 2;
+        //responseElement.attr("class", "alert alert-danger");
+    }
+
+    responseElement.text(data.message);
+}
+
+/* Controllers */
 angular.module('sumoApp.controllers', []).
   controller('AppCtrl', function ($scope, $http) {
+    $scope.responseMode = function()
+    {
+        return responseMode;
+    }
 
     $http({
       method: 'GET',
@@ -18,6 +42,8 @@ angular.module('sumoApp.controllers', []).
 
   }).
   controller('navigationController', function ($scope, $location) {
+        $('#response').empty();
+
         $scope.isActive = function (viewLocation) {
             return viewLocation === $location.path();
         };
@@ -52,16 +78,10 @@ angular.module('sumoApp.controllers', []).
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
             }).success(function (data, status, headers, config) {
-                 if (data.status == "ok") {
-                    angular.element("#result").className = "alert alert-success";
-
-                    if (data.message == null) data.message = "Success";
-                 } else {
-                     angular.element("#add_result").className = "alert alert-danger";
-                 }
-
-                 console.log(data.message);
-                 angular.element("#add_result").innerHTML = data.message;
+                 setResponseMessage(data);
+            }).error(function (data, status, headers, config) {
+                 data.message = "Failed adding synonym";
+                 setResponseMessage(data);
             });
         }
 
@@ -104,7 +124,10 @@ angular.module('sumoApp.controllers', []).
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
             }).success(function (data, status, headers, config) {
-                    $scope.result = data;
+                    setResponseMessage(data);
+                }).error(function (data, status, headers, config) {
+                    data.message = "Failed adding stopword";
+                    setResponseMessage(data);
                 });
         }
 
@@ -187,19 +210,14 @@ angular.module('sumoApp.controllers', []).
                     }
                 }).
                 error(function (data, status, headers, config) {
-                    $scope.result = 'Error!';
+                    data.message = "Error while searching";
+                    setResponseMessage(data);
                 });
         };
 
         $scope.deletevariant = function(index, varindex)
         {
-            console.log("Keyword Index: " + index);
-            console.log("Variant Index: " + varindex);
-
             if ($scope.syn_result[index] && $scope.syn_result[index].variants[varindex]) {
-                console.log($scope.syn_result[index]);
-                console.log($scope.syn_result[index].variants[index]);
-
                 var json = JSON.parse(JSON.stringify($scope.syn_result[index]));
                 json.variants = [JSON.parse(JSON.stringify($scope.syn_result[index].variants[varindex]))];
 
@@ -211,11 +229,17 @@ angular.module('sumoApp.controllers', []).
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json'
                 }).success(function (data, status, headers, config) {
-                        $scope.syn_result[index].variants.splice(varindex, 1);
-                        if ($scope.syn_result[index].variants.length < 1) {
-                            $scope.syn_result.splice(index, 1);
-                        }
-                        $scope.result = data.message;
+                    data.message = "Successfully deleted variant: " + $scope.syn_result[index].variants[index].name;
+                    setResponseMessage(data);
+
+                    $scope.syn_result[index].variants.splice(varindex, 1);
+
+                    if ($scope.syn_result[index].variants.length < 1) {
+                        $scope.syn_result.splice(index, 1);
+                    }
+                }).error(function (data, status, headers, config) {
+                        data.message = "Failed deleting variant: " + $scope.syn_result[index].variants[index].name;
+                        setResponseMessage(data);
                 });
             }
         }
@@ -234,9 +258,13 @@ angular.module('sumoApp.controllers', []).
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json'
                 }).success(function (data, status, headers, config) {
+                        data.message = "Successfully deleted synonym: " + $scope.syn_result[index].keyword;
+                        setResponseMessage(data);
                         $scope.syn_result.splice(index, 1);
-                        $scope.result = data.message;
-                });
+                    }).error(function (data, status, headers, config) {
+                        data.message = "Failed deleting synonym: " + $scope.syn_result[index].keyword;
+                        setResponseMessage(data);
+                    });
             }
         }
         $scope.deletestopword = function(index) {
@@ -249,9 +277,14 @@ angular.module('sumoApp.controllers', []).
                     data: $scope.stop_result[index],
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json'
-                }).success(function (data, status, headers, config) {
+                }).
+                    success(function (data, status, headers, config) {
+                        data.message = "Successfully deleted stopword: " + $scope.stop_result[index].name;
+                        setResponseMessage(data);
                         $scope.stop_result.splice(index, 1);
-                        $scope.result = data.message;
+                    }).error(function (data, status, headers, config) {
+                        data.message = "Failed deleting stopword: " + $scope.stop_result[index].name;
+                        setResponseMessage(data);
                     });
             }
         }

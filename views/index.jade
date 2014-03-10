@@ -4,6 +4,10 @@ block body
   div(ng-controller='AppCtrl')
     h2 Hello {{name}}
 
+    div(id="response",
+    ng-class="{'alert alert-success': responseMode() == 1, 'alert alert-danger': responseMode() == 2, '': responseMode() == 3}")
+      {{responseMessage}}
+
     div.container(ng-view)
 
   script(src="js/lib/jquery/dist/jquery.js")

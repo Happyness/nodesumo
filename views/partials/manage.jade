@@ -43,7 +43,7 @@ div(ng-controller='managementController')
                                             a(class="btn", ng-click="deletesynonym($index);") Delete
                             td
                                 div(class="btn-group", ng-repeat="variant in item.variants")
-                                    button(type="button", class="btn btn-primary dropdown-toggle", data-toggle="dropdown")  {{variant.name}}
+                                    button(type="button", class="btn btn-info dropdown-toggle variant", data-toggle="dropdown")  {{variant.name}}
                                         span(class="caret")
                                     ul(class="dropdown-menu", role="menu")
                                         li
