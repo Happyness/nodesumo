@@ -31,7 +31,8 @@ config(function ($routeProvider, $locationProvider) {
           controller: 'exportController'
       }).
     otherwise({
-      templateUrl: '/partials/home'
+      templateUrl: '/partials/home',
+      controller: 'indexController'
     });
 
   $locationProvider.html5Mode(true);

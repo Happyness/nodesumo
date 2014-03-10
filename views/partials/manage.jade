@@ -1,4 +1,6 @@
 div(ng-controller='managementController')
+    include response
+
     form(ng-submit="submit()")
         div(ng-repeat="item in searchTypes", class="row-fluid col-xs-2")
             label

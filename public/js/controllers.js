@@ -8,7 +8,7 @@ function setResponseMessage(data, error)
 
     var responseElement = $('#response');
 
-    if (data.status == "ok") {
+    if (data.status.toLowerCase() == "ok") {
         responseMode = 1;
         //responseElement.attr("class", "alert alert-success");
 
@@ -18,7 +18,13 @@ function setResponseMessage(data, error)
         //responseElement.attr("class", "alert alert-danger");
     }
 
+    responseElement.show();
     responseElement.text(data.message);
+
+    setTimeout(function() {
+        responseElement.hide();
+        responseMode = 3;
+    }, 4000);
 }
 
 /* Controllers */
@@ -37,23 +43,13 @@ angular.module('sumoApp.controllers', []).
              setResponseMessage(data);
          });
    }).
-  controller('AppCtrl', function ($scope, $http) {
+  controller('indexController', function ($scope) {
+    responseMode = 3;
+
     $scope.responseMode = function()
     {
         return responseMode;
     }
-
-    $http({
-      method: 'GET',
-      url: '/api/name'
-    }).
-    success(function (data, status, headers, config) {
-      $scope.name = data.name;
-    }).
-    error(function (data, status, headers, config) {
-      $scope.name = 'Error!';
-    });
-
   }).
   controller('navigationController', function ($scope, $location) {
         $('#response').empty();
@@ -63,6 +59,8 @@ angular.module('sumoApp.controllers', []).
         };
   }).
     controller('addSynonymController', ["$scope", "$http", function ($scope, $http) {
+        responseMode = 3;
+
         $scope.submit = function()
         {
             console.log($scope.add_keyword);
@@ -79,7 +77,7 @@ angular.module('sumoApp.controllers', []).
             });
 
             var json = {
-                keyword: $scope.add_keyword,
+                name: $scope.add_keyword,
                 variants: variants,
                 index: $scope.add_index,
                 indexType: $scope.add_indextype
@@ -92,6 +90,7 @@ angular.module('sumoApp.controllers', []).
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
             }).success(function (data, status, headers, config) {
+                 data.message = "Successfully added synonym";
                  setResponseMessage(data);
             }).error(function (data, status, headers, config) {
                  data.message = "Failed adding synonym";
@@ -119,6 +118,8 @@ angular.module('sumoApp.controllers', []).
 
     }]).
     controller('addStopwordController', ["$scope", "$http", function ($scope, $http) {
+        responseMode = 3;
+
         $scope.submit = function()
         {
             console.log($scope.add_name);
@@ -138,6 +139,7 @@ angular.module('sumoApp.controllers', []).
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json'
             }).success(function (data, status, headers, config) {
+                    data.message = "Successfully added stopword";
                     setResponseMessage(data);
                 }).error(function (data, status, headers, config) {
                     data.message = "Failed adding stopword";
@@ -165,6 +167,8 @@ angular.module('sumoApp.controllers', []).
 
     }]).
   controller('managementController', function ($scope, $http) {
+        responseMode = 3;
+        
         $scope.searchTypes = [{id: 'keyword', label: 'Keyword'},
             {id: 'variant', label: 'Variant'},
             {id: 'stopword', label: 'Stopword'}];
@@ -235,7 +239,6 @@ angular.module('sumoApp.controllers', []).
                 var json = JSON.parse(JSON.stringify($scope.syn_result[index]));
                 json.variants = [JSON.parse(JSON.stringify($scope.syn_result[index].variants[varindex]))];
 
-                console.log(json);
                 $http({
                     method: 'POST',
                     url: 'http://localhost:8080/rest/delete/variant',
@@ -260,10 +263,7 @@ angular.module('sumoApp.controllers', []).
 
         $scope.deletesynonym = function(index)
         {
-            console.log(index);
-
             if ($scope.syn_result[index]) {
-                console.log($scope.syn_result[index]);
 
                 $http({
                     method: 'POST',
@@ -283,7 +283,6 @@ angular.module('sumoApp.controllers', []).
         }
         $scope.deletestopword = function(index) {
             if ($scope.stop_result[index]) {
-                console.log($scope.stop_result[index]);
 
                 $http({
                     method: 'POST',
